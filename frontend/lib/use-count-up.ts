@@ -10,18 +10,18 @@ import { useState, useEffect, useRef } from "react";
 export function useCountUp(end: number, duration: number = 2000, decimals: number = 0, fluctuate: boolean = false) {
   const [value, setValue] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
-  const hasAnimated = useRef(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
     let fluctuationInterval: NodeJS.Timeout;
+    let hasAnimated = false; // Use local variable so it resets properly in React Strict Mode
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated.current) {
-          hasAnimated.current = true;
+        if (entry.isIntersecting && !hasAnimated) {
+          hasAnimated = true;
           const startTime = performance.now();
 
           const animate = (now: number) => {
@@ -35,7 +35,6 @@ export function useCountUp(end: number, duration: number = 2000, decimals: numbe
               requestAnimationFrame(animate);
             } else if (fluctuate) {
               // Start continuous fluctuation once count up is done
-              // We want it to update constantly to look alive
               fluctuationInterval = setInterval(() => {
                 const changePcnt = (Math.random() - 0.5) * 0.04; // +/- 2%
                 const newValue = Math.max(0, end + (end * changePcnt));
