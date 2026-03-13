@@ -1,0 +1,10 @@
+dataset/Offroad_Segmentation_testImages/
+dataset/Offroad_Segmentation_Training_Dataset/
+dataset/Offroad_Segmentation_Scripts/predictions/masks/
+dataset/Offroad_Segmentation_Scripts/predictions/masks_color/
+
+# Backend
+backend/__pycache__/
+backend/outputs/
+.venv/
+__pycache__/
